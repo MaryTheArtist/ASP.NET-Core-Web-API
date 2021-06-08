@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Services
+namespace Data.Repository
+
 {
     public interface IDataRepository<TEntity>
     {
