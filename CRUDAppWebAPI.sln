@@ -4,15 +4,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRUDAppWebAPI", "CRUDAppWebAPI\CRUDAppWebAPI.csproj", "{42C974A7-A4C0-4E39-B265-2FA578ECF45B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{952097EB-03AD-4CCA-A808-2340A3BD83D3} = {952097EB-03AD-4CCA-A808-2340A3BD83D3}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{952097EB-03AD-4CCA-A808-2340A3BD83D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{952097EB-03AD-4CCA-A808-2340A3BD83D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{9B5380D0-E87C-4BD6-BB1B-569FEEF35E2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{9B5380D0-E87C-4BD6-BB1B-569FEEF35E2D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BC25126D-ACED-46BB-9834-417E2C077962}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authentication", "Authentication\Authentication.csproj", "{B204176E-4289-4400-91E5-E39602DEA168}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +37,10 @@ Global
 		{9B5380D0-E87C-4BD6-BB1B-569FEEF35E2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B5380D0-E87C-4BD6-BB1B-569FEEF35E2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B5380D0-E87C-4BD6-BB1B-569FEEF35E2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B204176E-4289-4400-91E5-E39602DEA168}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B204176E-4289-4400-91E5-E39602DEA168}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B204176E-4289-4400-91E5-E39602DEA168}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B204176E-4289-4400-91E5-E39602DEA168}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
