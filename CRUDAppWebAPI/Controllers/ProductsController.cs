@@ -8,11 +8,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Data;
 using Data.Repository;
+using Microsoft.AspNetCore.Authorization;
+using Authentication;
 
 namespace CRUDAppWebAPI.Controllers
 {
+    [Authorize]
     [ApiController]
-    [Route("api/products")]
+    [Route("[controller]")]
     public class ProductsController : ControllerBase
     {
         private readonly IDataRepository<Product> _dataRepository;
@@ -37,6 +40,7 @@ namespace CRUDAppWebAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Post([FromBody] Product product)
         {
             if (product == null)
@@ -48,6 +52,7 @@ namespace CRUDAppWebAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = UserRoles.Admin)]
         public IActionResult Put(string id, [FromBody] Product product)
         {
             if (product == null)
@@ -65,6 +70,7 @@ namespace CRUDAppWebAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = UserRoles.SuperAdmin)]
         public IActionResult Delete(string id)
         {
             Product product = _dataRepository.Get(id);

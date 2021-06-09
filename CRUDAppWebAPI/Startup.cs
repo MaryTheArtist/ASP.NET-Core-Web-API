@@ -16,6 +16,11 @@ using Data;
 using Data.Models;
 using Data.DataManager;
 using Data.Repository;
+using Microsoft.AspNetCore.Identity;
+using Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace CRUDAppWebAPI
 {
@@ -30,10 +35,36 @@ namespace CRUDAppWebAPI
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {            
+        {
             services.AddSingleton<IProductService, ProductService>();
-            services.AddDbContext<ProductContext>(opts => opts.UseSqlServer(Configuration["ConnectionString:ProductDB"]));
+            // Entity Framework
+            services.AddDbContext<ProductContext>(options => options.UseSqlServer(Configuration["ConnectionString:ProductDB"]));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["ConnectionString:ProductDB"]));
             services.AddScoped<IDataRepository<Product>, ProductManager>();
+            // Identity
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+            // Authentication
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidAudience = Configuration["JWT:ValidAudience"],
+                        ValidIssuer = Configuration["JWT:ValidIssuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
+                    };
+                });       
             services.AddControllers();
         }
 
@@ -49,6 +80,7 @@ namespace CRUDAppWebAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
