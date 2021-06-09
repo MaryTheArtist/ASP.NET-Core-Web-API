@@ -25,6 +25,10 @@ namespace CRUDAppWebAPI.Controllers
             _dataRepository = dataRepository;
         }
 
+        /// <summary>
+        /// Get all products
+        /// </summary>
+        /// <returns>All products</returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -32,15 +36,27 @@ namespace CRUDAppWebAPI.Controllers
             return Ok(products);
         }
 
+        /// <summary>
+        /// Get product by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}", Name = "Get")]
         public IActionResult Get(string id)
         {
             Product product = _dataRepository.Get(id);
             return Ok(product);
         }
-
+        
+        /// <summary>
+        /// Create product
+        /// You can create product if your role is Admin or SuperAdmin
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns>Created product</returns>
         [HttpPost]
         [Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.SuperAdmin)]
         public IActionResult Post([FromBody] Product product)
         {
             if (product == null)
@@ -51,8 +67,16 @@ namespace CRUDAppWebAPI.Controllers
             return CreatedAtRoute("Get", new { id = product.ProductID }, product);
         }
 
+        /// <summary>
+        /// Update product by ID
+        /// You can update product if your role is Admin or SuperAdmin
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="product"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         [Authorize(Roles = UserRoles.Admin)]
+        [Authorize(Roles = UserRoles.SuperAdmin)]
         public IActionResult Put(string id, [FromBody] Product product)
         {
             if (product == null)
@@ -69,6 +93,12 @@ namespace CRUDAppWebAPI.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Delete product by ID
+        /// Only Super Admin can delete products
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         [Authorize(Roles = UserRoles.SuperAdmin)]
         public IActionResult Delete(string id)
